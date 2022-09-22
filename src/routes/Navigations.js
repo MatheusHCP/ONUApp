@@ -1,0 +1,61 @@
+import react from "react"
+import {createNativeStackNavigator} from "@react-navigation/native-stack"
+import {createDrawerNavigator} from '@react-navigation/drawer'
+import Login from "../pages/login";
+import Inicio from "../pages/inicio";
+import maisInformacoes from "../pages/maisInformacoes";
+
+
+
+
+function DrawerNavigator(){
+    const Drawer = createDrawerNavigator();
+
+    return(
+        <Drawer.Navigator>
+            <Drawer.Screen
+                name="DrawerInicio"
+                component={Inicio}
+                options={{
+                    title: "ONGs de Preservação"
+                }}
+            />
+        </Drawer.Navigator>
+    )
+
+}
+
+
+
+export default function RoutesNavigator(){
+    
+    const Stack = createNativeStackNavigator();
+    
+    return(
+        <Stack.Navigator>
+            <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{
+                headerShown: false
+            }}
+            />
+            <Stack.Screen
+            name="DrawerScreens"
+            component={DrawerNavigator}
+            options={{
+                headerShown: false
+            }}
+            />
+            <Stack.Screen
+            name="MaisInformacoes"
+            component={maisInformacoes}
+            options={{
+                title: "Mais Informações"
+            }}
+            />
+        </Stack.Navigator>
+        
+    )
+}
+
