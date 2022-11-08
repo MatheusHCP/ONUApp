@@ -1,22 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {Card, Title, Paragraph, Button} from 'react-native-paper'
+import firebase from '../../config/firebase';
 
 
-export function CardONGs(){
-
+export function CardONGs({data}){
     const navigation = useNavigation();
+    const [imagePreview, setImagePreview] = useState();
+
+
+  useEffect(() => {
+    firebase.storage().ref('posts/principal/').child(data.val().key).getDownloadURL().then(response => {
+      setImagePreview(response)
+    });
+  },[])
 
 return (
    <Card style={styles.card} >
     <Card.Content>
-      <Title>SOS Amazonia</Title>
-      <Paragraph>ONG de Combate ao desmatamento na Amazônia</Paragraph>
+      <Title>{data.val().nomeONG}</Title>
+      <Paragraph>{data.val().quemSomosONG}</Paragraph>
     </Card.Content>
-    <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
+    <Card.Cover source={{ uri: imagePreview }} />
     <Card.Actions>
-      <Button onPress={() => {navigation.navigate('MaisInformacoes')}}>Mais informações</Button>
+      <Button onPress={() => {navigation.navigate('MaisInformacoes', {dados: data})}}>Mais informações</Button>
     </Card.Actions>
    </Card>
   );
@@ -25,6 +33,7 @@ return (
 
 const styles = StyleSheet.create({
     card:{
-        marginBottom: 30
+        marginBottom: 30,
+        width: '100%'
     }
 })

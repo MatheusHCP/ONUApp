@@ -10,11 +10,16 @@ import {
 import { Text } from "react-native-paper";
 import Unorderedlist from "react-native-unordered-list";
 
-function acessarPagina() {
-  Linking.openURL("https://sosamazonia.org.br/doe");
-}
 
-export default function MaisInformacoes() {
+
+export default function MaisInformacoes({route}) {
+
+  const {dados} = route.params;
+
+  function acessarPagina() {
+    Linking.openURL(dados.val().linkONG);
+  }
+
   return (
     <View style={styles.Container}>
       <View style={styles.areaScroll}>
@@ -27,41 +32,14 @@ export default function MaisInformacoes() {
             <Text
               style={[styles.titulo, { marginLeft: "5%", marginTop: "3%" }]}
             >
-              SOS Amazônia
+              {dados.val().nomeONG}
             </Text>
           </View>
           <View style={styles.areaBody}>
             <Text style={styles.titulo}>Quem Somos</Text>
             <Text style={styles.texto}>
-              Nós somos a SOS Amazônia, uma ONG com a missão de promover a
-              conservação da biodiversidade e o crescimento da consciência
-              ambiental na Amazônia.
+            {dados.val().quemSomosONG}
             </Text>
-          </View>
-          <View style={styles.areaBody}>
-            <Text style={styles.titulo}>Programas</Text>
-            <View style={styles.ordered}>
-              <Unorderedlist>
-                <Text>Negócios floretais sustentáveis</Text>
-              </Unorderedlist>
-            </View>
-            <View style={styles.ordered}>
-              <Unorderedlist>
-                <Text>
-                  Mudanças climáticas e restauração da paisagem florestal
-                </Text>
-              </Unorderedlist>
-            </View>
-            <View style={styles.ordered}>
-              <Unorderedlist>
-                <Text>Política, Governança e proteção da paisagem verde</Text>
-              </Unorderedlist>
-            </View>
-            <View style={styles.ordered}>
-              <Unorderedlist>
-                <Text>Negócios floretais sustentáveis</Text>
-              </Unorderedlist>
-            </View>
           </View>
           <View style={styles.areaBody}>
             <Text style={[styles.titulo, {marginBottom: 10}]}>Imagens</Text>

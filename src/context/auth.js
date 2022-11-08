@@ -11,19 +11,21 @@ const AuthContextProvider = ({children}) => {
 
   function logout(){
     firebase.auth().signOut();
+    setUser(null);
     navigation.navigate("Login")
   }
 
 
-  useEffect( () => {
-    firebase.auth().onAuthStateChanged((usuarioLogado) => {
-      setUser(usuarioLogado);
-    });
-  }, []);
+  // useEffect( () => {
+  //   firebase.auth().onAuthStateChanged((usuarioLogado) => {
+  //     console.log(user.uid)
+  //     setUser(usuarioLogado);
+  //   });
+  // }, []);
 
   return (
     <AuthContext.Provider 
-      value={{user, nomeUsuario, setNomeUsuario, logout}}>
+      value={{user, setUser, logout}}>
       {children} 
     </AuthContext.Provider>
   );

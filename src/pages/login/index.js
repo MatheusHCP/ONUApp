@@ -10,14 +10,14 @@ export default function Login() {
   const [email, setEmail] = useState("Teste2@teste.com");
   const [senha, setSenha] = useState("123123");
   const [visivel, setVisivel] = useState(false);
-  const {setNomeUsuario} = useContext(AuthContext);
+  const {setUser} = useContext(AuthContext);
 
 
   const logar = () => {
     firebase.auth().signInWithEmailAndPassword(email, senha)
     .then(async (response) => {
       firebase.database().ref('usuarios/' + response.uid).once("value", snap => {
-        setNomeUsuario(snap.val().nome)
+        setUser(snap)
     })
       navigation.navigate("DrawerScreens")
       })
