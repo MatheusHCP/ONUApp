@@ -33,6 +33,13 @@ return (
         <CardONGs data={item}/>
     )}
     showsVerticalScrollIndicator={false}
+    style={{
+        width: '100%'
+    }}
+    contentContainerStyle={{
+        width: '100%',
+        alignItems: 'center'
+    }}
     />
    </View>
   );

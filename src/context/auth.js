@@ -1,5 +1,6 @@
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import {useState, useEffect, createContext} from 'react';
+import { Alert } from 'react-native';
 import firebase from '../config/firebase';
 
 export const AuthContext = createContext();
@@ -12,7 +13,7 @@ const AuthContextProvider = ({children}) => {
   function logout(){
     firebase.auth().signOut();
     setUser(null);
-    navigation.navigate("Login")
+    Alert.alert("Deslogado com sucesso!")
   }
 
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,16 +9,38 @@ import {
 } from "react-native";
 import { Text } from "react-native-paper";
 import Unorderedlist from "react-native-unordered-list";
+import firebase from "../../config/firebase";
 
 
 
 export default function MaisInformacoes({route}) {
 
-  const {dados} = route.params;
+  const {dados, imagePreview} = route.params;
+  const [arrayImagens, setArrayImagens] = useState([]);
 
+
+
+  
   function acessarPagina() {
     Linking.openURL(dados.val().linkONG);
   }
+
+  function carregaImagens(){
+    firebase.storage().ref(`posts/galeria/${dados.val().key}/`).child("1").getMetadata()
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+
+  }
+
+  useEffect(() => {
+    carregaImagens()
+  },[])
+
 
   return (
     <View style={styles.Container}>
@@ -26,7 +48,7 @@ export default function MaisInformacoes({route}) {
         <ScrollView>
           <View style={styles.areaHeader}>
             <Image
-              source={{ uri: "https://picsum.photos/700" }}
+              source={{ uri: imagePreview }}
               style={styles.imageStyle}
             />
             <Text

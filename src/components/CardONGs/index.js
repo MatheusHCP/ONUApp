@@ -24,7 +24,7 @@ return (
     </Card.Content>
     <Card.Cover source={{ uri: imagePreview }} />
     <Card.Actions>
-      <Button onPress={() => {navigation.navigate('MaisInformacoes', {dados: data})}}>Mais informações</Button>
+      <Button onPress={() => {navigation.navigate('MaisInformacoes', {dados: data, imagePreview})}}>Mais informações</Button>
     </Card.Actions>
    </Card>
   );
@@ -35,5 +35,6 @@ const styles = StyleSheet.create({
     card:{
         marginBottom: 30,
         width: '100%'
-    }
+    },
+
 })

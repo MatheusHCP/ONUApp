@@ -16,7 +16,7 @@ import { CriarPublicacao } from "../pages/DrawerScreens/CriarPublicacao";
 function DrawerNavigator(){
     const Drawer = createDrawerNavigator();
     const navigation = useNavigation()
-    const {logout} = useContext(AuthContext);
+    const {user,logout} = useContext(AuthContext);
 
     return(
         <Drawer.Navigator>
@@ -26,20 +26,27 @@ function DrawerNavigator(){
                 options={{
                     title: "ONGs de Preservação",
                     headerRight: () => (
+                        user != null ?
                         <Icon name="logout" size={24} onPress={() => {logout()}} />
-                    )
+                        :
+                        <Icon name="login" size={24} onPress={() => navigation.navigate('Login')}/>
+                    ),
+
                 }}
             />
-            <Drawer.Screen
-                name="CriarPublicacao"
-                component={CriarPublicacao}
-                options={{
-                    title: "Criar Publicação",
-                    headerRight: () => (
-                        <Icon name="logout" size={24} onPress={() => {logout()}} />
-                    )
-                }}
-            />
+            {user != null &&
+            (
+                <Drawer.Screen
+                    name="CriarPublicacao"
+                    component={CriarPublicacao}
+                    options={{
+                        title: "Criar Publicação",
+                        headerRight: () => (
+                            <Icon name="logout" size={24} onPress={() => {logout()}} />
+                        )
+                    }}
+                />
+            )}
         </Drawer.Navigator>
     )
 
@@ -54,18 +61,15 @@ export default function RoutesNavigator(){
     return(
         <Stack.Navigator>
             <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{
-                headerShown: false
-            }}
-            />
-            <Stack.Screen
             name="DrawerScreens"
             component={DrawerNavigator}
             options={{
                 headerShown: false
             }}
+            />
+            <Stack.Screen
+            name="Login"
+            component={Login}
             />
             <Stack.Screen
             name="MaisInformacoes"

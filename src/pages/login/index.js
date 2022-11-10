@@ -19,8 +19,8 @@ export default function Login() {
       firebase.database().ref('usuarios/' + response.uid).once("value", snap => {
         setUser(snap)
     })
-      navigation.navigate("DrawerScreens")
-      })
+      navigation.goBack();
+    })
     .catch(() => {mostrarSnack()});
   };
 
