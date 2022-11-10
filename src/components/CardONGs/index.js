@@ -34,7 +34,7 @@ return (
 const styles = StyleSheet.create({
     card:{
         marginBottom: 30,
-        width: '100%'
+        width: 350
     },
 
 })

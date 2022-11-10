@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  FlatList,
 } from "react-native";
 import { Text } from "react-native-paper";
 import Unorderedlist from "react-native-unordered-list";
@@ -26,15 +27,16 @@ export default function MaisInformacoes({route}) {
   }
 
   function carregaImagens(){
-    firebase.storage().ref(`posts/galeria/${dados.val().key}/`).child("1").getMetadata()
-    .then(res => {
-      console.log(res)
-    })
-    .catch(err => {
-      console.log(err)
-    })
-
-
+    setArrayImagens([])
+    for (let i = 0; i < dados.val().qtdImagens ; i++) {
+      firebase.storage().ref(`posts/galeria/${dados.val().key}/`).child(i.toString()).getDownloadURL()
+      .then(res => {
+       setArrayImagens(prevState => [...prevState, res])
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
   }
 
   useEffect(() => {
@@ -65,28 +67,21 @@ export default function MaisInformacoes({route}) {
           </View>
           <View style={styles.areaBody}>
             <Text style={[styles.titulo, {marginBottom: 10}]}>Imagens</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={arrayImagens}
+            // style={{
+            //   width: '100%',
+            //   height: 200
+            // }}
+            renderItem={({item}) => 
               <Image
-                source={{ uri: "https://picsum.photos/700" }}
-                style={{width: 100, height: 100}}
+                source={{uri: item}}
+                style={{width: 100, height: 100, marginRight: 20}}
               />
-              <Image
-                source={{ uri: "https://picsum.photos/700" }}
-                style={styles.imagemScroll}
-              />
-              <Image
-                source={{ uri: "https://picsum.photos/700" }}
-                style={styles.imagemScroll}
-              />
-              <Image
-                source={{ uri: "https://picsum.photos/700" }}
-                style={styles.imagemScroll}
-              />
-              <Image
-                source={{ uri: "https://picsum.photos/700" }}
-                style={styles.imagemScroll}
-              />
-            </ScrollView>
+            }
+            />
           </View>
         </ScrollView>
       </View>

@@ -71,7 +71,8 @@ export function CriarPublicacao() {
       nomeONG: nomeONG,
       quemSomosONG: quemSomos,
       uidCriador: user.val().uid,
-      key: postagem.key
+      key: postagem.key,
+      qtdImagens: imagens.length
     })
     .then(response => {
       if(imagem != null){
