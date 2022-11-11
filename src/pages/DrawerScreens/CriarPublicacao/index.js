@@ -70,7 +70,7 @@ export function CriarPublicacao() {
       linkONG: linkONG,
       nomeONG: nomeONG,
       quemSomosONG: quemSomos,
-      uidCriador: user.val().uid,
+      uidCriador: user.val().uid == undefined ? user.uid : user.val().uid,
       key: postagem.key,
       qtdImagens: imagens.length
     })

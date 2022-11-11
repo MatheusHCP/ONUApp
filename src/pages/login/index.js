@@ -7,8 +7,8 @@ import { AuthContext } from "../../context/auth";
 
 export default function Login() {
   const navigation = useNavigation();
-  const [email, setEmail] = useState("Teste2@teste.com");
-  const [senha, setSenha] = useState("123123");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [visivel, setVisivel] = useState(false);
   const {setUser} = useContext(AuthContext);
 
@@ -31,7 +31,7 @@ export default function Login() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.formularioLogin}>
-        <Text>Efetue login para acessar plataforma</Text>
+        <Text style={{textAlign: 'center'}}>Efetue login para poder efetuar publicações na plataforma</Text>
         <View>
           <TextInput
             label="Email"
@@ -43,6 +43,7 @@ export default function Login() {
             label="Senha"
             style={styles.textInputs}
             value={senha}
+            secureTextEntry
             onChangeText={(text) => setSenha(text)}
           />
         </View>

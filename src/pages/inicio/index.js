@@ -32,6 +32,7 @@ return (
     renderItem={({item}) => (
         <CardONGs data={item}/>
     )}
+    ListEmptyComponent={<Text>Não há publicações disponíveis.</Text>}
     showsVerticalScrollIndicator={false}
     style={{
         width: '100%'
@@ -55,7 +56,8 @@ const styles = StyleSheet.create({
     titulo: {
         fontSize: 24,
         textAlign: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        color: 'purple'
     },
     viewTitulo: {
         height: 70,

@@ -19,8 +19,8 @@ export function CardONGs({data}){
 return (
    <Card style={styles.card} >
     <Card.Content>
-      <Title>{data.val().nomeONG}</Title>
-      <Paragraph>{data.val().quemSomosONG}</Paragraph>
+      <Title style={{fontWeight: '600'}}>{data.val().nomeONG}</Title>
+      <Paragraph numberOfLines={3}>{data.val().quemSomosONG}</Paragraph>
     </Card.Content>
     <Card.Cover source={{ uri: imagePreview }} />
     <Card.Actions>

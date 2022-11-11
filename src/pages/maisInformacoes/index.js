@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
   Linking,
   FlatList,
+  Alert,
 } from "react-native";
 import { Text } from "react-native-paper";
-import Unorderedlist from "react-native-unordered-list";
 import firebase from "../../config/firebase";
 
 
@@ -18,8 +18,17 @@ export default function MaisInformacoes({route}) {
 
   const {dados, imagePreview} = route.params;
   const [arrayImagens, setArrayImagens] = useState([]);
+  const [nomePublicado, setNomePublicado] = useState('');
+  const [fotoPublicado, setFotoPublicado] = useState(null);
 
-
+  function dadosPublicadoPor(){
+    firebase.database().ref('usuarios/').child(dados.val().uidCriador).once('value', (snapshot) => {
+      setNomePublicado(snapshot.val().nome)
+    })
+    firebase.storage().ref('usuarios/').child(dados.val().uidCriador).getDownloadURL().then(resp => {
+      setFotoPublicado(resp)
+    })
+  }
 
   
   function acessarPagina() {
@@ -41,6 +50,7 @@ export default function MaisInformacoes({route}) {
 
   useEffect(() => {
     carregaImagens()
+    dadosPublicadoPor();
   },[])
 
 
@@ -70,6 +80,7 @@ export default function MaisInformacoes({route}) {
             <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
+            ListEmptyComponent={<Text>Não possui imagens.</Text>}
             data={arrayImagens}
             // style={{
             //   width: '100%',
@@ -82,6 +93,13 @@ export default function MaisInformacoes({route}) {
               />
             }
             />
+          </View>
+          <View style={styles.areaBody}>
+            <Text style={[styles.titulo, {marginBottom: 10}]}>Publicado por:</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}} >
+              <Image source={{uri: fotoPublicado}} style={{width: 60, height: 60, borderRadius: 60, marginRight: 20}}/>
+              <Text style={{fontSize: 16, fontWeight: '600'}} >{nomePublicado}</Text>
+            </View>
           </View>
         </ScrollView>
       </View>

@@ -19,7 +19,7 @@ export function Registro() {
   const {height, width} = Dimensions.get('window');
   let inseriuUsuario = false;
   let usuario = null;
-  const {setNomeUsuario} = useContext(AuthContext);
+  const {setUser} = useContext(AuthContext);
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false)
 
@@ -52,22 +52,23 @@ useEffect(() => {
     await firebase
       .auth().createUserWithEmailAndPassword(email, senha)
       .then(async (response) => {
-        usuario = firebase.database().ref('usuarios/').child(response.uid).set({
+        usuario = {
           nome: nome,
           email: email,
           latitude: latitude ? latitude : '',
           longitude: longitude ? longitude : '',
           uid: response.uid
-        });
-        setNomeUsuario(nome);
-        if (imagem != '') {
+        }
+        firebase.database().ref('usuarios/').child(response.uid).set(usuario);
+        setUser(usuario);
+        if (imagem != null) {
           let conteudoImagem = await fetch(imagem);
           let blob = await conteudoImagem.blob();
           firebase.storage().ref('usuarios/')
             .child(response.uid).put(blob);
         }
         setRefreshing(false);
-        navigation.navigate('DrawerScreens');
+        navigation.navigate('DrawerScreens')
       })
       .catch((error) => {
         setRefreshing(false)
@@ -107,6 +108,7 @@ useEffect(() => {
 
   return (
     <View style={styles.container}>
+      <Text style={{fontSize: 24, color: 'purple', fontWeight: '600', marginTop: 20}}>Formulário de Cadastro</Text>
       <View style={styles.formularioRegistro}>
         <TextInput
           label="Nome Completo"

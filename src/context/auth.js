@@ -7,7 +7,6 @@ export const AuthContext = createContext();
 
 const AuthContextProvider = ({children}) => {
   const [user, setUser] = useState(null);
-  const [nomeUsuario, setNomeUsuario] = useState(null);
   const navigation = useNavigation();
 
   function logout(){
