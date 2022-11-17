@@ -10,15 +10,20 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [visivel, setVisivel] = useState(false);
-  const {setUser} = useContext(AuthContext);
+  const {user, setUser} = useContext(AuthContext);
 
 
   const logar = () => {
     firebase.auth().signInWithEmailAndPassword(email, senha)
     .then(async (response) => {
       firebase.database().ref('usuarios/' + response.uid).once("value", snap => {
-        setUser(snap)
-    })
+        firebase.storage().ref('usuarios/').child(response.uid).getDownloadURL().then(img => {
+          setUser({snap, fotoPerfil: img})
+        })
+        .catch(noImage => {
+          setUser({snap, fotoPerfil: null})
+        })
+      })
       navigation.goBack();
     })
     .catch(() => {mostrarSnack()});

@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Registro } from "../pages/registro";
 import { AuthContext } from "../context/auth";
 import { CriarPublicacao } from "../pages/DrawerScreens/CriarPublicacao";
+import { DrawerMenu } from "../components/DrawerMenu";
 
 
 
@@ -19,7 +20,7 @@ function DrawerNavigator(){
     const {user,logout} = useContext(AuthContext);
 
     return(
-        <Drawer.Navigator>
+        <Drawer.Navigator drawerContent={(props) => <DrawerMenu {...props}/>}>
             <Drawer.Screen
                 name="DrawerInicio"
                 component={Inicio}

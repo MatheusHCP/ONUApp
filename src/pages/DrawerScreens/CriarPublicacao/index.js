@@ -61,8 +61,6 @@ export function CriarPublicacao() {
 
   async function salvarPost(){
     setRefreshing(true);
-    let ImagemONG = await fetch(imagem);
-    let blobImagemONG = await ImagemONG.blob();
 
     const postagem = await firebase.database().ref('posts').push();
 
@@ -74,8 +72,10 @@ export function CriarPublicacao() {
       key: postagem.key,
       qtdImagens: imagens.length
     })
-    .then(response => {
+    .then(async response => {
       if(imagem != null){
+        let ImagemONG = await fetch(imagem);
+        let blobImagemONG = await ImagemONG.blob();
         firebase.storage().ref('posts/principal/')
         .child(postagem.key).put(blobImagemONG);
       }
@@ -96,7 +96,7 @@ export function CriarPublicacao() {
       navigation.navigate('DrawerInicio');
     })
     .catch(err => {
-      console.error(err)
+      console.error(err.response)
       setRefreshing(false)
     })
     .finally(
@@ -123,15 +123,15 @@ export function CriarPublicacao() {
       <View style={styles.form}>
         <View style={styles.areaCampo}>
           <Text>Nome da ONG</Text>
-          <TextInput  value={nomeONG} onChangeText={setNomeONG} />
+          <TextInput  value={nomeONG} onChangeText={setNomeONG} placeholder="Nome da ONG" />
         </View>
         <View style={styles.areaCampo}>
           <Text>Link do site da ONG</Text>
-          <TextInput value={linkONG}  onChangeText={setLinkONG} />
+          <TextInput value={linkONG}  onChangeText={setLinkONG} placeholder="Ex: http://www.google.com.br" />
         </View>
         <View style={styles.areaCampo}>
           <Text>Quem Somos (Descrição da ONG)</Text>
-          <TextInput value={quemSomos}  onChangeText={setQuemSomos} />
+          <TextInput value={quemSomos}  onChangeText={setQuemSomos} placeholder="Informe uma descrição para ONG" />
         </View>
         <Button mode={"outlined"} onPress={adicionarFotos}>
           Adicionar Imagens

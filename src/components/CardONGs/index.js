@@ -13,6 +13,9 @@ export function CardONGs({data}){
   useEffect(() => {
     firebase.storage().ref('posts/principal/').child(data.val().key).getDownloadURL().then(response => {
       setImagePreview(response)
+    })
+    .catch(err => {
+      return;
     });
   },[])
 
@@ -22,7 +25,7 @@ return (
       <Title style={{fontWeight: '600'}}>{data.val().nomeONG}</Title>
       <Paragraph numberOfLines={3}>{data.val().quemSomosONG}</Paragraph>
     </Card.Content>
-    <Card.Cover source={{ uri: imagePreview }} />
+    <Card.Cover source={ imagePreview ? { uri: imagePreview } : require('../../../assets/nofoto.png')} />
     <Card.Actions>
       <Button onPress={() => {navigation.navigate('MaisInformacoes', {dados: data, imagePreview})}}>Mais informações</Button>
     </Card.Actions>

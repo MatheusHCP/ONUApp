@@ -32,7 +32,12 @@ export default function MaisInformacoes({route}) {
 
   
   function acessarPagina() {
-    Linking.openURL(dados.val().linkONG);
+    if(dados.val().linkONG.includes('https://') || dados.val().linkONG.includes('http://')){
+      Linking.openURL(dados.val().linkONG);
+    }
+    else{
+      Alert.alert('Link fornecido não se encontra no padrão correto.')
+    }
   }
 
   function carregaImagens(){
@@ -60,7 +65,7 @@ export default function MaisInformacoes({route}) {
         <ScrollView>
           <View style={styles.areaHeader}>
             <Image
-              source={{ uri: imagePreview }}
+              source={ imagePreview ? { uri: imagePreview } : require('../../../assets/nofoto.png')}
               style={styles.imageStyle}
             />
             <Text
@@ -97,7 +102,7 @@ export default function MaisInformacoes({route}) {
           <View style={styles.areaBody}>
             <Text style={[styles.titulo, {marginBottom: 10}]}>Publicado por:</Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}} >
-              <Image source={{uri: fotoPublicado}} style={{width: 60, height: 60, borderRadius: 60, marginRight: 20}}/>
+              <Image source={ fotoPublicado ? {uri: fotoPublicado} : require('../../../assets/nofoto.png')} style={{width: 60, height: 60, borderRadius: 60, marginRight: 20}}/>
               <Text style={{fontSize: 16, fontWeight: '600'}} >{nomePublicado}</Text>
             </View>
           </View>

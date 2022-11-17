@@ -16,13 +16,6 @@ const AuthContextProvider = ({children}) => {
   }
 
 
-  // useEffect( () => {
-  //   firebase.auth().onAuthStateChanged((usuarioLogado) => {
-  //     console.log(user.uid)
-  //     setUser(usuarioLogado);
-  //   });
-  // }, []);
-
   return (
     <AuthContext.Provider 
       value={{user, setUser, logout}}>
