@@ -21,19 +21,23 @@ export default function MaisInformacoes({route}) {
   const [nomePublicado, setNomePublicado] = useState('');
   const [fotoPublicado, setFotoPublicado] = useState(null);
 
+
   function dadosPublicadoPor(){
-    firebase.database().ref('usuarios/').child(dados.val().uidCriador).once('value', (snapshot) => {
+    firebase.database().ref('usuarios/').child(dados.uidCriador).once('value', (snapshot) => {
       setNomePublicado(snapshot.val().nome)
     })
-    firebase.storage().ref('usuarios/').child(dados.val().uidCriador).getDownloadURL().then(resp => {
+    firebase.storage().ref('usuarios/').child(dados.uidCriador).getDownloadURL().then(resp => {
       setFotoPublicado(resp)
+    })
+    .catch(err => {
+      return;
     })
   }
 
   
   function acessarPagina() {
-    if(dados.val().linkONG.includes('https://') || dados.val().linkONG.includes('http://')){
-      Linking.openURL(dados.val().linkONG);
+    if(dados.linkONG.toLowerCase().includes('https://') || dados.linkONG.toLowerCase().includes('http://')){
+      Linking.openURL(dados.linkONG);
     }
     else{
       Alert.alert('Link fornecido não se encontra no padrão correto.')
@@ -42,8 +46,8 @@ export default function MaisInformacoes({route}) {
 
   function carregaImagens(){
     setArrayImagens([])
-    for (let i = 0; i < dados.val().qtdImagens ; i++) {
-      firebase.storage().ref(`posts/galeria/${dados.val().key}/`).child(i.toString()).getDownloadURL()
+    for (let i = 0; i < dados.qtdImagens ; i++) {
+      firebase.storage().ref(`posts/galeria/${dados.key}/`).child(i.toString()).getDownloadURL()
       .then(res => {
        setArrayImagens(prevState => [...prevState, res])
       })
@@ -71,13 +75,13 @@ export default function MaisInformacoes({route}) {
             <Text
               style={[styles.titulo, { marginLeft: "5%", marginTop: "3%" }]}
             >
-              {dados.val().nomeONG}
+              {dados.nomeONG}
             </Text>
           </View>
           <View style={styles.areaBody}>
             <Text style={styles.titulo}>Quem Somos</Text>
             <Text style={styles.texto}>
-            {dados.val().quemSomosONG}
+            {dados.quemSomosONG}
             </Text>
           </View>
           <View style={styles.areaBody}>

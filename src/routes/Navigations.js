@@ -10,6 +10,7 @@ import { Registro } from "../pages/registro";
 import { AuthContext } from "../context/auth";
 import { CriarPublicacao } from "../pages/DrawerScreens/CriarPublicacao";
 import { DrawerMenu } from "../components/DrawerMenu";
+import { AlterarPostagem } from "../pages/AlterarPostagem";
 
 
 
@@ -20,7 +21,7 @@ function DrawerNavigator(){
     const {user,logout} = useContext(AuthContext);
 
     return(
-        <Drawer.Navigator drawerContent={(props) => <DrawerMenu {...props}/>}>
+        <Drawer.Navigator drawerContent={(props) => <DrawerMenu {...props}/>} >
             <Drawer.Screen
                 name="DrawerInicio"
                 component={Inicio}
@@ -32,6 +33,7 @@ function DrawerNavigator(){
                         :
                         <Icon name="login" size={24} onPress={() => navigation.navigate('Login')}/>
                     ),
+                    unmountOnBlur: true
 
                 }}
             />
@@ -84,6 +86,13 @@ export default function RoutesNavigator(){
             component={Registro}
             options={{
                 title: "Registre-se"
+            }}
+            />
+            <Stack.Screen
+            name="AlterarPostagem"
+            component={AlterarPostagem}
+            options={{
+                title: "Alterar Publicação"
             }}
             />
         </Stack.Navigator>

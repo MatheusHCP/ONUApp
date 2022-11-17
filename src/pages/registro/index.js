@@ -59,14 +59,14 @@ useEffect(() => {
           longitude: longitude ? longitude : '',
           uid: response.uid
         }
-        firebase.database().ref('usuarios/').child(response.uid).set(usuario);
-        setUser(usuario);
+        firebase.database().ref('usuarios/').child(response.uid).set(usuario)
         if (imagem != null) {
           let conteudoImagem = await fetch(imagem);
           let blob = await conteudoImagem.blob();
           firebase.storage().ref('usuarios/')
             .child(response.uid).put(blob);
         }
+        Alert.alert("Cadastro efetuado com sucesso!", "Agora só efetuar o login. 🥳")
         setRefreshing(false);
         navigation.navigate('DrawerScreens')
       })

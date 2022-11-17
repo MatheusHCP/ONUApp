@@ -30,18 +30,18 @@ return (
           }}
         />
         {user && (
-            <DrawerItem
-              label="Criar Publicação"
-              icon={() => (
-                <IconAnt
-                  name="plus"
-                  size={24}
-                />
-              )}
-              onPress={() => {
-                props.navigation.navigate('CriarPublicacao');
-              }}
-            />
+          <DrawerItem
+            label="Criar Publicação"
+            icon={() => (
+              <IconAnt
+                name="plus"
+                size={24}
+              />
+            )}
+            onPress={() => {
+              props.navigation.navigate('CriarPublicacao');
+            }}
+          />
         )}
     </DrawerContentScrollView>
    </View>

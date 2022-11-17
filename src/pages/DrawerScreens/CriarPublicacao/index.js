@@ -15,6 +15,7 @@ import { RenderImagem } from "../../../components/listaImagens";
 import firebase from "../../../config/firebase";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../../context/auth";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export function CriarPublicacao() {
   const [nomeONG, setNomeONG] = useState("");
@@ -68,7 +69,7 @@ export function CriarPublicacao() {
       linkONG: linkONG,
       nomeONG: nomeONG,
       quemSomosONG: quemSomos,
-      uidCriador: user.val().uid == undefined ? user.uid : user.val().uid,
+      uidCriador: user.snap.val().uid == undefined ? user.uid : user.snap.val().uid,
       key: postagem.key,
       qtdImagens: imagens.length
     })
@@ -107,7 +108,7 @@ export function CriarPublicacao() {
 
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{alignItems: 'center'}}>
+    <KeyboardAwareScrollView style={styles.container} contentContainerStyle={{alignItems: 'center'}} extraHeight={160} >
       <View style={styles.header}>
         <Text style={styles.titulo}>Criar Publicação ONG</Text>
         <Image
@@ -131,7 +132,7 @@ export function CriarPublicacao() {
         </View>
         <View style={styles.areaCampo}>
           <Text>Quem Somos (Descrição da ONG)</Text>
-          <TextInput value={quemSomos}  onChangeText={setQuemSomos} placeholder="Informe uma descrição para ONG" />
+          <TextInput value={quemSomos} multiline  onChangeText={setQuemSomos} placeholder="Informe uma descrição para ONG" />
         </View>
         <Button mode={"outlined"} onPress={adicionarFotos}>
           Adicionar Imagens
@@ -150,7 +151,7 @@ export function CriarPublicacao() {
           <Button mode={"outlined"} style={{marginTop: 20}} onPress={salvarPost}>Publicar</Button>
         )}
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 
